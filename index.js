@@ -50,7 +50,7 @@ app.get('/users/:id', async (req, res) => {
 
     try {
         const user = await User.findById(userId)
-        if(!user){
+        if (!user) {
             res.status(404).send()
         }
         res.status(201).send(user)
@@ -60,42 +60,37 @@ app.get('/users/:id', async (req, res) => {
 })
 
 //CREATE NEW TASK
-app.post('/tasks', (req, res) => {
+app.post('/tasks', async (req, res) => {
     const task = new Task(req.body)
 
-    task.save().then(() => {
-        console.log(`Task with id : ${task._id} was created with success`)
-        res.send(task)
-    }).catch((error) => {
-        return res.status(400).json({ error: error })
-    })
+    try {
+        await task.save()
+        res.status(201).send(task)
+    } catch (error) {
+        res.status(500).json({ error: error })
+    }
 })
 
 //GET ALL TASKS
-app.get('/tasks', (req, res) => {
-    Task.find()
-        .then(tasks => {
-            res.send(tasks)
-        })
-        .catch(error => {
-            res.status(500).json({ error: error })
-        })
+app.get('/tasks', async (req, res) => {
+    try {
+        const tasks = await Task.find()
+        res.status(200).send(tasks)
+    } catch (error) {
+        res.status(500).json({ error: error })
+    }
 })
 
 //GET TASK BY ID
-app.get('/tasks/:id', (req, res) => {
+app.get('/tasks/:id', async (req, res) => {
     const taskId = req.params.id
 
-    Task.findById(taskId)
-        .then((task) => {
-            if (!task) {
-                res.status(404).send()
-            }
-            res.send(task)
-        })
-        .catch((error) => {
-            res.status(500).json({ error: error })
-        })
+    try{
+        const task = await Task.findById(taskId)
+        res.status(201).send(task)
+    }catch(error){
+        res.status(500).json({error : error})
+    }
 })
 
 app.listen(3000, () => console.log("Server started ! "));
