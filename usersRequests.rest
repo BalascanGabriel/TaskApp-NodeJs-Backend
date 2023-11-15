@@ -1,5 +1,5 @@
 ###CREATE NEW USER
-POST http://localhost:3000/users
+POST http://localhost:3000/api/users/new-user
 Content-Type: application/json
 
 {
@@ -10,7 +10,19 @@ Content-Type: application/json
 }
 
 ###GET ALL USERS
-GET http://localhost:3000/users
+GET http://localhost:3000/api/users/get-all-users
 
 ###GET USER BY ID
-http://localhost:3000/users/6554989b33e327c577e3aae6
+GET http://localhost:3000/api/users/get-user/6554834ce961c23e4612afa4
+
+###UPDATE USER
+PATCH http://localhost:3000/api/users/update-user/6554838ee961c23e4612afa8
+Content-Type: application/json
+
+{
+    "name": "Updated Name",
+    "age": 26
+}
+
+###DELETE USER
+DELETE http://localhost:3000/api/users/delete-user/6554989b33e327c577e3aae6

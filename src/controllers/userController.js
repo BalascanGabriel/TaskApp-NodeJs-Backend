@@ -25,14 +25,25 @@ class UserController {
         const userId = req.params.id;
         try {
             const user = await User.findById(userId);
+    
             if (!user) {
-                res.status(404).send();
+                return res.status(404).send({ error: 'User not found' });
             }
-            res.status(201).send(user);
+    
+            res.status(200).send(user);
         } catch (error) {
-            res.status(500).json({ error: error });
+            console.error('Error in getUserById:', error);
+    
+            // Handle specific errors
+            if (error.name === 'CastError') {
+                return res.status(400).send({ error: 'Invalid user ID' });
+            }
+    
+            // Handle other errors
+            res.status(500).json({ error: 'Internal Server Error' });
         }
     }
+    
 
     async updateUser(req, res) {
         const userId = req.params.id;

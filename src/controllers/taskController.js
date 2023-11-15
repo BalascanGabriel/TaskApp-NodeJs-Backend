@@ -31,6 +31,22 @@ class TaskController {
             res.status(500).json({ error: error })
         }
     }
+
+    async quickUpdateTask(req, res){
+        const taskId = req.params.id;
+
+        try{
+            let updatedTask = await Task.findByIdAndUpdate(taskId, req.body);
+            if(!updatedTask){
+                return res.status(404).send();
+                }
+                res.status(200).send(updatedTask);
+                
+
+        }catch(error){
+            res.status(500).json({error: error.message})
+        }
+    }
 }
 
 module.exports = new TaskController()

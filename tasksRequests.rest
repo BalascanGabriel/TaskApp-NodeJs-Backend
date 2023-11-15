@@ -1,14 +1,22 @@
 ###CREATE NEW TASK
-POST http://localhost:3000/tasks
+POST http://localhost:3000/api/tasks/new-task
 Content-Type: application/json
 
 {
-    "title" : "Learn API Auth",
+    "title" : "Learn MVC",
     "description" : "ASAP"
 }
 
 ###GET ALL TASKS
-GET http://localhost:3000/tasks
+GET http://localhost:3000/api/tasks/get-all-tasks
 
 ###GET TASK BY ID
-GET http://localhost:3000/tasks/6554adff9275327bfb3e46ba
+GET http://localhost:3000/api/tasks/get-task/6554adff9275327bfb3e46ba
+
+###QUICK TASK UPDATE
+PATCH http://localhost:3000/api/tasks/quick-update-task/6554adff9275327bfb3e46ba
+Content-Type: application/json
+
+{
+    "title": "Updated only Task Title"
+}

@@ -4,12 +4,15 @@ const router = express.Router()
 const taskController = require('../controllers/taskController')
 
 //CREATE NEW TASK   
-router.post('/tasks', taskController.createNewTask)
+router.post('/new-task', taskController.createNewTask)
 
 //GET ALL TASKS
-router.get('/tasks', taskController.getAllTasks)
+router.get('/get-all-tasks', taskController.getAllTasks)
 
 //GET TASK BY ID    
-router.get('/tasks/:id', taskController.getTaskById)
+router.get('/get-task/:id', taskController.getTaskById)
+
+//QUICK UPDATE TASK
+router.patch('/quick-update-task/:id', taskController.quickUpdateTask)
 
 module.exports = router
