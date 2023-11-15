@@ -1,0 +1,16 @@
+###CREATE NEW USER
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "name" : "Lucian",
+    "email" : "luci@yahoo.com",
+    "password" : "lucisefu",
+    "age" : 27
+}
+
+###GET ALL USERS
+GET http://localhost:3000/users
+
+###GET USER BY ID
+http://localhost:3000/users/6554989b33e327c577e3aae6
