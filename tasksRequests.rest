@@ -3,7 +3,7 @@ POST http://localhost:3000/api/tasks/new-task
 Content-Type: application/json
 
 {
-    "title" : "Learn MVC",
+    "title" : "learn react",
     "description" : "ASAP"
 }
 
@@ -19,4 +19,14 @@ Content-Type: application/json
 
 {
     "title": "Updated only Task Title"
+}
+
+###
+PATCH http://localhost:3000/api/tasks/update-task-with-assignee/6554c4591f408228f10deaa6
+Content-Type: application/json
+
+{
+    "title": "Updated Task Title",
+    "description": "Smth new",
+    "assignee": "6554838ee961c23e4612afa8"
 }
