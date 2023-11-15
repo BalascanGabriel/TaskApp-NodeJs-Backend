@@ -3,7 +3,7 @@ POST http://localhost:3000/tasks
 Content-Type: application/json
 
 {
-    "title" : "Learn JWT",
+    "title" : "Learn API Auth",
     "description" : "ASAP"
 }
 
@@ -11,4 +11,4 @@ Content-Type: application/json
 GET http://localhost:3000/tasks
 
 ###GET TASK BY ID
-GET http://localhost:3000/tasks/655486d9d569333a0be4d452
+GET http://localhost:3000/tasks/6554adff9275327bfb3e46ba

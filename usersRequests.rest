@@ -3,10 +3,10 @@ POST http://localhost:3000/users
 Content-Type: application/json
 
 {
-    "name" : "Lucian",
-    "email" : "luci@yahoo.com",
-    "password" : "lucisefu",
-    "age" : 27
+    "name" : "Mihai",
+    "email" : "bgtmih@yahoo.com",
+    "password" : "mihaisefu",
+    "age" : 25
 }
 
 ###GET ALL USERS
