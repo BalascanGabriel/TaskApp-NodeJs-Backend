@@ -24,4 +24,7 @@ router.patch('/assign-task/:taskId', taskController.asignTaskToUser)
 //GET ALL TASKS FOR A USER
 router.get('/get-user-tasks/:userId', taskController.getUserTasks)
 
+//SET TASK STATUS
+router.patch('/set-task-status/:taskId', taskController.setTaskStatus)
+
 module.exports = router

@@ -42,3 +42,11 @@ Content-Type: application/json
 
 ###GET ALL TASKS FOR SPECIFIC USER
 GET http://localhost:3000/api/tasks/get-user-tasks/6554ac5c34fcf559a0e40b05
+
+###CHANGE TASK STATUS
+PATCH http://localhost:3000/api/tasks/set-task-status/6554c4861f408228f10deaac
+Content-Type: application/json
+
+{
+    "newStatus" : "in-progress"
+}

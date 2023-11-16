@@ -45,35 +45,35 @@ class TaskController {
 
     async quickUpdateTask(req, res) {
         const taskId = req.params.id;
-    
+
         try {
             // Check if the task exists
             const taskExists = await Task.exists({ _id: taskId });
-    
+
             if (!taskExists) {
                 return res.status(404).json({ error: 'Task not found' });
             }
-    
+
             // Extract the assignee from the request body (if provided)
             const { assignee, ...updateFields } = req.body;
-    
+
             // Update the task fields without modifying the assignee
             const updatedTask = await Task.findByIdAndUpdate(
                 taskId,
                 { $set: updateFields },
                 { new: true }
             );
-    
+
             if (!updatedTask) {
                 return res.status(404).send();
             }
-    
+
             res.status(200).send(updatedTask);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     }
-    
+
 
     async updateTaskWithAssignee(req, res) {
         const taskId = req.params.id;
@@ -141,15 +141,15 @@ class TaskController {
         try {
             //Check if user does indeed exist
             const userExists = await User.exists({ _id: userId })
-            if(!userExists){
-                res.status(404).json({error: "User does not exist !"})
+            if (!userExists) {
+                res.status(404).json({ error: "User does not exist !" })
             }
 
             //find all records where asignee equals userId from params
-            const userTasks = await Task.find({assignee: userId})
+            const userTasks = await Task.find({ assignee: userId })
 
-            if(userTasks === 0){
-                res.status(404).json({error: "No tasks found for required user..."})
+            if (userTasks === 0) {
+                res.status(404).json({ error: "No tasks found for required user..." })
             }
 
             res.status(200).send(userTasks)
@@ -158,6 +158,36 @@ class TaskController {
         }
     }
 
-}
+    async setTaskStatus(req, res) {
+        const taskId = req.params.taskId;
+        const newStatus = req.body.newStatus;
 
+        try {
+            //get task
+            const task = await Task.findById(taskId)
+            //if task does not exist
+            if (!task) {
+                res.status(404).json({ error: 'Task not found' })
+            }
+            //check if new status is valid
+            if (!['open', 'in-progress', 'closed'].includes(newStatus)) {
+                return res.status(400).json({ error: 'Invalid status!' })
+            }
+            // Check the current status
+            const currentStatus = task.status;
+
+            // Update the task status if the new status is different
+            if (currentStatus !== newStatus) {
+                task.status = newStatus;
+                await task.save();
+            }
+
+            res.status(200).json({ currentStatus: task.status });
+        } catch (error) {
+            res.status(500).json({ error: error.message })
+        }
+
+    }
+
+}
 module.exports = new TaskController();
