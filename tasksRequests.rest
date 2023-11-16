@@ -3,7 +3,7 @@ POST http://localhost:3000/api/tasks/new-task
 Content-Type: application/json
 
 {
-    "title" : "learn react",
+    "title" : "Learn auth methods",
     "description" : "ASAP"
 }
 
@@ -14,15 +14,16 @@ GET http://localhost:3000/api/tasks/get-all-tasks
 GET http://localhost:3000/api/tasks/get-task/6554adff9275327bfb3e46ba
 
 ###QUICK TASK UPDATE
-PATCH http://localhost:3000/api/tasks/quick-update-task/6554adff9275327bfb3e46ba
+PATCH http://localhost:3000/api/tasks/quick-update-task/6554c4591f408228f10deaa6
 Content-Type: application/json
 
 {
-    "title": "Updated only Task Title"
+    "title": "Learn NestJs",
+    "description": "ASAP"
 }
 
 ###UPDATE SET ASIGNEE ID TO TASK
-PATCH http://localhost:3000/api/tasks/update-task-with-assignee/6554c4591f408228f10deaa6
+PATCH http://localhost:3000/api/tasks/update-task-with-assignee/6555d243a8b87d50e69d5926
 Content-Type: application/json
 
 {
@@ -32,9 +33,12 @@ Content-Type: application/json
 }
 
 ###ASIGN TASK TO PARTICULAR USER
-PATCH http://localhost:3000/api/tasks/assign-task/6554c4861f408228f10deaac
+PATCH http://localhost:3000/api/tasks/assign-task/6555d243a8b87d50e69d5926
 Content-Type: application/json
 
 {
-    "asigneeId": "6554ac5c34fcf559a0e40b05"
+    "userId": "6554ac5c34fcf559a0e40b05"
 }
+
+###GET ALL TASKS FOR SPECIFIC USER
+GET http://localhost:3000/api/tasks/get-user-tasks/6554ac5c34fcf559a0e40b05

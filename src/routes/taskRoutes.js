@@ -21,4 +21,7 @@ router.patch('/update-task-with-assignee/:id', taskController.updateTaskWithAssi
 //ASSIGN TASK TO USER
 router.patch('/assign-task/:taskId', taskController.asignTaskToUser)
 
+//GET ALL TASKS FOR A USER
+router.get('/get-user-tasks/:userId', taskController.getUserTasks)
+
 module.exports = router

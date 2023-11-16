@@ -45,27 +45,35 @@ class TaskController {
 
     async quickUpdateTask(req, res) {
         const taskId = req.params.id;
-
+    
         try {
-            // Check if the assignee exists in the User collection
-            const assigneeExists = await User.exists({ name: req.body.assignee });
-
-            if (!assigneeExists) {
-                return res.status(400).json({ error: 'Assignee does not exist' });
+            // Check if the task exists
+            const taskExists = await Task.exists({ _id: taskId });
+    
+            if (!taskExists) {
+                return res.status(404).json({ error: 'Task not found' });
             }
-
-            // Update the task
-            const updatedTask = await Task.findByIdAndUpdate(taskId, req.body, { new: true });
-
+    
+            // Extract the assignee from the request body (if provided)
+            const { assignee, ...updateFields } = req.body;
+    
+            // Update the task fields without modifying the assignee
+            const updatedTask = await Task.findByIdAndUpdate(
+                taskId,
+                { $set: updateFields },
+                { new: true }
+            );
+    
             if (!updatedTask) {
                 return res.status(404).send();
             }
-
+    
             res.status(200).send(updatedTask);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     }
+    
 
     async updateTaskWithAssignee(req, res) {
         const taskId = req.params.id;
@@ -99,7 +107,7 @@ class TaskController {
     async asignTaskToUser(req, res) {
         //get the task id and user id which the task will be given
         const taskId = req.params.taskId;
-        const userId = req.body.asigneeId;
+        const userId = req.body.userId;
 
         try {
             //check if the user exists
@@ -116,14 +124,37 @@ class TaskController {
                 { new: true }
             )
             //If smth happend with the update
-            if(!updatedTask){
-                res.status(404).json({error: 'Document update problem'})
+            if (!updatedTask) {
+                res.status(404).json({ error: 'Document update problem' })
             }
             //everything okay
             res.status(200).send(updatedTask)
 
         } catch (error) {
             res.status(500).json({ error: error.message });
+        }
+    }
+
+    async getUserTasks(req, res) {
+        const userId = req.params.userId;
+
+        try {
+            //Check if user does indeed exist
+            const userExists = await User.exists({ _id: userId })
+            if(!userExists){
+                res.status(404).json({error: "User does not exist !"})
+            }
+
+            //find all records where asignee equals userId from params
+            const userTasks = await Task.find({assignee: userId})
+
+            if(userTasks === 0){
+                res.status(404).json({error: "No tasks found for required user..."})
+            }
+
+            res.status(200).send(userTasks)
+        } catch (error) {
+            res.status(500).json({ error: error.message })
         }
     }
 
