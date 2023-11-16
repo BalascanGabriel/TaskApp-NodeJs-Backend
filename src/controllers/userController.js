@@ -25,25 +25,25 @@ class UserController {
         const userId = req.params.id;
         try {
             const user = await User.findById(userId);
-    
+
             if (!user) {
                 return res.status(404).send({ error: 'User not found' });
             }
-    
+
             res.status(200).send(user);
         } catch (error) {
             console.error('Error in getUserById:', error);
-    
+
             // Handle specific errors
             if (error.name === 'CastError') {
                 return res.status(400).send({ error: 'Invalid user ID' });
             }
-    
+
             // Handle other errors
             res.status(500).json({ error: 'Internal Server Error' });
         }
     }
-    
+
 
     async updateUser(req, res) {
         const userId = req.params.id;
@@ -59,7 +59,7 @@ class UserController {
         }
 
         //Incepe update-ul
-        try{
+        try {
             //gaseste utilizator
             const user = await User.findById(userId)
             if (!user) {
@@ -70,15 +70,15 @@ class UserController {
             await user.save();
             res.status(200).send(user);
 
-        }catch(error){
-            res.status(500).json({error: error})
+        } catch (error) {
+            res.status(500).json({ error: error })
         }
 
     }
 
-    async shortUpdateUser(req, res){
+    async shortUpdateUser(req, res) {
         const userId = req.params.id;
-        
+
         try {
             // Find the user by ID and update the fields in the request body
             const user = await User.findByIdAndUpdate(userId, req.body, { new: true, runValidators: true });
@@ -93,10 +93,10 @@ class UserController {
         }
     }
 
-    async deleteUserById(req, res){
+    async deleteUserById(req, res) {
         const userId = req.params.id
 
-        try{
+        try {
             const user = await User.findByIdAndDelete(userId)
             if (!user) {
                 return res.status(404).send();
@@ -104,10 +104,31 @@ class UserController {
 
             res.status(200).send(user);
 
-        }catch(error){
-            res.status(500).json({error: error.message})
+        } catch (error) {
+            res.status(500).json({ error: error.message })
         }
     }
+
+    async changePassword(req, res) {
+        const { oldPassword, newPassword } = req.body;
+
+        try {
+            const user = req.user;
+            const isPasswordValid = await user.comparePassword(oldPassword);
+
+            if (!isPasswordValid) {
+                return res.status(401).json({ error: 'Invalid old password' });
+            }
+
+            user.password = newPassword;
+            await user.save();
+
+            res.status(200).json({ message: 'Password changed successfully' });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
 }
 
 module.exports = new UserController();
