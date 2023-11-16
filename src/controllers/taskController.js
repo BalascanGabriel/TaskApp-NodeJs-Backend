@@ -96,6 +96,37 @@ class TaskController {
         }
     }
 
+    async asignTaskToUser(req, res) {
+        //get the task id and user id which the task will be given
+        const taskId = req.params.taskId;
+        const userId = req.body.asigneeId;
+
+        try {
+            //check if the user exists
+            const asigneeExists = await User.exists({ _id: userId })
+            //if it does not
+            if (!asigneeExists) {
+                res.status(404).json({ error: "Asignee does not exist" });
+            }
+            //if does exist
+            //find task by taskId and then update asignee with userId from req body
+            //By default findByIdAndUpdate returns the document before update, if new:true is set, it return the updated one
+            const updatedTask = await Task.findByIdAndUpdate(taskId,
+                { assignee: userId },
+                { new: true }
+            )
+            //If smth happend with the update
+            if(!updatedTask){
+                res.status(404).json({error: 'Document update problem'})
+            }
+            //everything okay
+            res.status(200).send(updatedTask)
+
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
 }
 
 module.exports = new TaskController();

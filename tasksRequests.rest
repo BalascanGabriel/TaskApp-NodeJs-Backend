@@ -21,7 +21,7 @@ Content-Type: application/json
     "title": "Updated only Task Title"
 }
 
-###
+###UPDATE SET ASIGNEE ID TO TASK
 PATCH http://localhost:3000/api/tasks/update-task-with-assignee/6554c4591f408228f10deaa6
 Content-Type: application/json
 
@@ -29,4 +29,12 @@ Content-Type: application/json
     "title": "Updated Task Title",
     "description": "Smth new",
     "assignee": "6554838ee961c23e4612afa8"
+}
+
+###ASIGN TASK TO PARTICULAR USER
+PATCH http://localhost:3000/api/tasks/assign-task/6554c4861f408228f10deaac
+Content-Type: application/json
+
+{
+    "asigneeId": "6554ac5c34fcf559a0e40b05"
 }

@@ -18,4 +18,7 @@ router.patch('/quick-update-task/:id', taskController.quickUpdateTask)
 // UPDATE TASK WITH ASSIGNEE
 router.patch('/update-task-with-assignee/:id', taskController.updateTaskWithAssignee);
 
+//ASSIGN TASK TO USER
+router.patch('/assign-task/:taskId', taskController.asignTaskToUser)
+
 module.exports = router
