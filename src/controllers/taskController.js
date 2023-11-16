@@ -74,6 +74,23 @@ class TaskController {
         }
     }
 
+    async deleteTask(req, res) {
+        const taskId = req.params.taskId;
+
+        try {
+            const taskExists = await Task.exists({ _id: taskId })
+            if (!taskExists) {
+                return res.status(404).json({ error: "Task not found" });
+            }
+            const deletedTask = await Task.deleteOne({ _id: taskId })
+            if (!deletedTask) {
+                return res.status(404).send()
+            }
+            res.status(200).send(deletedTask);
+        } catch (error) {
+            res.status(500).json({ error: error.message })
+        }
+    }
 
     async updateTaskWithAssignee(req, res) {
         const taskId = req.params.id;
@@ -187,6 +204,21 @@ class TaskController {
             res.status(500).json({ error: error.message })
         }
 
+    }
+
+    async filterTasksByStatus(req, res) {
+        const status = req.query.status;
+
+        try {
+            if (!['open', 'in-progress', 'closed'].includes(status)) {
+                return res.status(400).json({ error: 'Invalid status!' })
+            }
+
+            const filteredTasks = await Task.find({ status })
+            res.status(200).send(filteredTasks);
+        } catch (error) {
+            res.status(500).json({ error: error.message })
+        }
     }
 
 }

@@ -11,7 +11,7 @@ Content-Type: application/json
 GET http://localhost:3000/api/tasks/get-all-tasks
 
 ###GET TASK BY ID
-GET http://localhost:3000/api/tasks/get-task/6554adff9275327bfb3e46ba
+GET http://localhost:3000/api/tasks/get-task/6554c4591f408228f10deaa6
 
 ###QUICK TASK UPDATE
 PATCH http://localhost:3000/api/tasks/quick-update-task/6554c4591f408228f10deaa6
@@ -50,3 +50,6 @@ Content-Type: application/json
 {
     "newStatus" : "in-progress"
 }
+
+###GET TASKS BY STATUS
+GET http://localhost:3000/api/tasks/filter-tasks?status=in-progress
