@@ -221,5 +221,9 @@ class TaskController {
         }
     }
 
+    async countFilterTasksByStatus(req, res){
+        
+    }
+
 }
 module.exports = new TaskController();

@@ -26,3 +26,28 @@ Content-Type: application/json
 
 ###DELETE USER
 DELETE http://localhost:3000/api/users/delete-user/6554989b33e327c577e3aae6
+
+###LOGIN
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "email": "gabrieldanut@yahoo.com",
+    "password": "gabriel99gbe"
+}
+
+###REGISTER
+POST http://localhost:3000/auth/signup
+Content-Type: application/json
+
+{
+    "name": "New User",
+    "email": "gabrieldanut@yahoo.com",
+    "password": "gabriel99gbe",
+    "age": 30
+}
+
+###PROTECTED ROUTES
+GET http://localhost:3000/auth/protected
+Headers:
+  Authorization: Bearer <YOUR_JWT_TOKEN>

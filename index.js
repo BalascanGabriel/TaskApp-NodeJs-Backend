@@ -6,6 +6,9 @@ const app = express();
 const userRoutes = require('./src/routes/userRoutes')
 //importing task routes
 const taskRoutes = require('./src/routes/taskRoutes')
+//importing auth routes
+const authRoutes = require('./src/routes/authRoutes');
+
 
 //By requiering this, the code in that file is executed and connection ran
 require('./src/db/dbConnection')
@@ -18,5 +21,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/users', userRoutes)
 app.use('/api/tasks', taskRoutes)
+app.use('/auth', authRoutes);
+
 
 app.listen(3000, () => console.log("Server started ! "));
