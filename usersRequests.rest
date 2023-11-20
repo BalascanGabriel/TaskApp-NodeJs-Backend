@@ -13,7 +13,7 @@ Content-Type: application/json
 GET http://localhost:3000/api/users/get-all-users
 
 ###GET USER BY ID
-GET http://localhost:3000/api/users/get-user/6554834ce961c23e4612afa4
+GET http://localhost:3000/api/users/get-user/655b1f6de9ce900f93f73bc7
 
 ###UPDATE USER
 PATCH http://localhost:3000/api/users/update-user/6554838ee961c23e4612afa8
@@ -41,10 +41,18 @@ POST http://localhost:3000/auth/signup
 Content-Type: application/json
 
 {
-    "name": "Andrei",
-    "email": "andrei77@yahoo.com",
-    "password": "777andrei",
+    "name": "Gabe",
+    "email": "gabe99@yahoo.com",
+    "password": "gabe070199",
     "age": 30
+}
+
+###
+PATCH http://localhost:3000/api/users/set-user-role/655b1f6de9ce900f93f73bc7
+Content-Type: application/json
+
+{
+    "role": "admin"
 }
 
 ###PROTECTED ROUTES

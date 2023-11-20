@@ -21,5 +21,8 @@ router.delete('/delete-user/:id', userController.deleteUserById)
 //CHANGE-PASSWORD
 router.patch('/change-password', userController.changePassword)
 
+//SET USER ROLE
+router.patch('/set-user-role/:id', userController.setUserRole);
+
 
 module.exports = router
