@@ -6,6 +6,11 @@ const generateToken = (userId) => {
     return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
 };
 
+const userExists = async (email) => {
+    return await User.findOne({ email });
+};
+
+
 exports.login = async (req, res) => {
     const { email, password } = req.body;
 
@@ -28,8 +33,15 @@ exports.signup = async (req, res) => {
     const { name, email, password } = req.body;
 
     try {
-        if (await userExists(email)) {
-            return res.status(400).json({ message: 'Email already in use' });
+        // Check if user with the same email already exists
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser) {
+            return res.status(400).json({
+                code: 400,
+                message: 'Email already in use',
+                token: null, // Set token to null or remove it if you don't want to include it on failure
+            });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -37,10 +49,18 @@ exports.signup = async (req, res) => {
         await user.save();
 
         const token = generateToken(user._id);
-        res.json({ token });
+        res.json({
+            code: 200,
+            message: 'User created successfully',
+            token,
+        });
     } catch (error) {
         console.error('Signup error:', error);
-        res.status(500).json({ message: 'Error creating user' });
+        res.status(500).json({
+            code: 500,
+            message: 'Error creating user',
+            token: null, // Set token to null or remove it if you don't want to include it on failure
+        });
     }
 };
 

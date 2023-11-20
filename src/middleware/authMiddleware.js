@@ -1,19 +1,19 @@
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
-    const token = req.header('Authorization')
+    const token = req.header('Authorization');
 
     if (!token) {
-        return res.status(401).json({message: 'Unauthorized - No token provided'})
+        return res.status(401).json({ message: 'Unauthorized - No token provided' });
     }
 
-    try{
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        // Continue with the middleware logic or store decoded information in req for further use
-        req.user = decoded;
+    try {
+        const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET);
+        req.userId = decoded.userId;
+        console.log(decoded); // Log the decoded token
         next();
-
-    }catch(error){
-        return res.status(401).json({message: 'Unauthorized - Invalid token'})
+    } catch (error) {
+        console.error(error); // Log any verification errors
+        return res.status(401).json({ message: 'Unauthorized - Invalid token' });
     }
-}
+};

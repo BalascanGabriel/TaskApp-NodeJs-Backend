@@ -41,13 +41,13 @@ POST http://localhost:3000/auth/signup
 Content-Type: application/json
 
 {
-    "name": "New User",
-    "email": "gabrieldanut@yahoo.com",
-    "password": "gabriel99gbe",
+    "name": "Andrei",
+    "email": "andrei77@yahoo.com",
+    "password": "777andrei",
     "age": 30
 }
 
 ###PROTECTED ROUTES
 GET http://localhost:3000/auth/protected
 Headers:
-  Authorization: Bearer <YOUR_JWT_TOKEN>
+  Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTU3NTQ3N2M5MDlhYTE1OGMyYjcwZTIiLCJpYXQiOjE3MDA0NjU1NjUsImV4cCI6MTcwMDQ2OTE2NX0.rNo1F0ThEjTtGER7wDi4hxscZY6cGNk6zTv6cqcZwi8
