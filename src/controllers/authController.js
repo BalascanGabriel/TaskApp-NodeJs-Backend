@@ -10,7 +10,6 @@ const userExists = async (email) => {
     return await User.findOne({ email });
 };
 
-
 exports.login = async (req, res) => {
     const { email, password } = req.body;
 
@@ -22,6 +21,10 @@ exports.login = async (req, res) => {
         }
 
         const token = generateToken(user._id);
+
+        // Set the token in an HTTP-only cookie
+        res.cookie('token', token, { httpOnly: true });
+
         res.json({ token });
     } catch (error) {
         console.error('Login error:', error);
@@ -49,6 +52,10 @@ exports.signup = async (req, res) => {
         await user.save();
 
         const token = generateToken(user._id);
+
+        // Set the token in an HTTP-only cookie
+        res.cookie('token', token, { httpOnly: true });
+
         res.json({
             code: 200,
             message: 'User created successfully',
@@ -63,4 +70,3 @@ exports.signup = async (req, res) => {
         });
     }
 };
-

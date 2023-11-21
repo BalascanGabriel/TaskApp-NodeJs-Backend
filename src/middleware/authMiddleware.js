@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
     }
 
     try {
-        const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET);
+        const decoded = jwt.verify(token.replace(/^Bearer\s/, ''), process.env.JWT_SECRET);
         req.userId = decoded.userId;
         console.log(decoded); // Log the decoded token
         next();
