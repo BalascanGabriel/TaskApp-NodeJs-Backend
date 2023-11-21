@@ -2,7 +2,12 @@ const express = require('express')
 const router = express.Router()
 
 const taskController = require('../controllers/taskController')
+const authMiddleware = require('../middleware/authMiddleware');
+const adminAuthMiddleware = require('../middleware/adminAuthMiddleware');
 
+
+//NEEDS BASIC AUTH
+router.use(authMiddleware);
 //CREATE NEW TASK   
 router.post('/new-task', taskController.createNewTask)
 
@@ -15,22 +20,27 @@ router.get('/get-task/:id', taskController.getTaskById)
 //QUICK UPDATE TASK
 router.patch('/quick-update-task/:id', taskController.quickUpdateTask)
 
+//GET TASKS BY STATUS
+router.get('/filter-tasks', taskController.filterTasksByStatus)
+
+
+//NEEDS ADMINISTATOR AUTH
+//router.use(adminAuthMiddleware);
 //DELETE TASK
 router.delete('/delete-task/:taskId', taskController.deleteTask)
 
 // UPDATE TASK WITH ASSIGNEE
-router.patch('/update-task-with-assignee/:id', taskController.updateTaskWithAssignee);
+router.patch('/update-task-with-assignee/:id', adminAuthMiddleware, taskController.updateTaskWithAssignee);
 
 //ASSIGN TASK TO USER
-router.patch('/assign-task/:taskId', taskController.asignTaskToUser)
+router.patch('/assign-task/:taskId', adminAuthMiddleware, taskController.asignTaskToUser)
 
 //GET ALL TASKS FOR A USER
-router.get('/get-user-tasks/:userId', taskController.getUserTasks)
+router.get('/get-user-tasks/:userId', adminAuthMiddleware, taskController.getUserTasks)
 
 //SET TASK STATUS
-router.patch('/set-task-status/:taskId', taskController.setTaskStatus)
+router.patch('/set-task-status/:taskId', adminAuthMiddleware, taskController.setTaskStatus)
 
-//GET TASKS BY STATUS
-router.get('/filter-tasks', taskController.filterTasksByStatus)
+
 
 module.exports = router

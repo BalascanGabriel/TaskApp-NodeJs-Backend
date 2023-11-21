@@ -1,16 +1,16 @@
 const Task = require('../models/task');
 const User = require('../models/user')
+const authMiddleware = require('../middleware/authMiddleware');
+
 
 class TaskController {
     async createNewTask(req, res) {
         const task = new Task({
             title: req.body.title,
             description: req.body.description,
-            status: req.body.status || 'open', // Default to 'open'
-            assignee: req.body.assignee
+            status: req.body.status || 'open',
+            assignee: req.userId, // Assign the task to the authenticated user
         });
-
-        console.log(task)
 
         try {
             await task.save();
@@ -22,7 +22,7 @@ class TaskController {
 
     async getAllTasks(req, res) {
         try {
-            const tasks = await Task.find();
+            const tasks = await Task.find({ assignee: req.userId }); // Only fetch tasks assigned to the authenticated user
             res.status(200).send(tasks);
         } catch (error) {
             res.status(500).json({ error: 'Server Error' });
@@ -33,7 +33,7 @@ class TaskController {
         const taskId = req.params.id;
 
         try {
-            const task = await Task.findById(taskId);
+            const task = await Task.findOne({ _id: taskId, assignee: req.userId }); // Check ownership
             if (!task) {
                 return res.status(404).send();
             }
@@ -122,35 +122,42 @@ class TaskController {
     }
 
     async asignTaskToUser(req, res) {
-        //get the task id and user id which the task will be given
         const taskId = req.params.taskId;
         const userId = req.body.userId;
-
+    
         try {
-            //check if the user exists
-            const asigneeExists = await User.exists({ _id: userId })
-            //if it does not
-            if (!asigneeExists) {
-                res.status(404).json({ error: "Asignee does not exist" });
+            // check if the user exists
+            const asigneeExists = await User.exists({ _id: userId });
+    
+            // log the values for debugging
+            console.log('UserId:', userId);
+            console.log('AsigneeExists:', asigneeExists);
+    
+            if (asigneeExists === null) {
+                return res.status(404).json({ error: "Error checking if asignee exists" });
             }
-            //if does exist
-            //find task by taskId and then update asignee with userId from req body
-            //By default findByIdAndUpdate returns the document before update, if new:true is set, it return the updated one
-            const updatedTask = await Task.findByIdAndUpdate(taskId,
+    
+            if (!asigneeExists) {
+                return res.status(404).json({ error: "Asignee does not exist" });
+            }
+    
+            const updatedTask = await Task.findByIdAndUpdate(
+                taskId,
                 { assignee: userId },
                 { new: true }
-            )
-            //If smth happend with the update
+            );
+    
             if (!updatedTask) {
-                res.status(404).json({ error: 'Document update problem' })
+                return res.status(404).json({ error: 'Document update problem' });
             }
-            //everything okay
-            res.status(200).send(updatedTask)
-
+    
+            return res.status(200).send(updatedTask);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            console.error('Error in asignTaskToUser:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
         }
     }
+    
 
     async getUserTasks(req, res) {
         const userId = req.params.userId;

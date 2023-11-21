@@ -1,13 +1,13 @@
-###CREATE NEW USER
-POST http://localhost:3000/api/users/new-user
-Content-Type: application/json
+# ###CREATE NEW USER
+# POST http://localhost:3000/api/users/new-user
+# Content-Type: application/json
 
-{
-    "name" : "Mihai",
-    "email" : "bgtmih@yahoo.com",
-    "password" : "mihaisefu",
-    "age" : 25
-}
+# {
+#     "name" : "Mihai",
+#     "email" : "bgtmih@yahoo.com",
+#     "password" : "mihaisefu",
+#     "age" : 25
+# }
 
 ###GET ALL USERS
 GET http://localhost:3000/api/users/get-all-users
@@ -27,13 +27,22 @@ Content-Type: application/json
 ###DELETE USER
 DELETE http://localhost:3000/api/users/delete-user/6554989b33e327c577e3aae6
 
-###LOGIN
+###LOGIN - ADMIN
 POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-    "email": "gabrieldanut@yahoo.com",
-    "password": "gabriel99gbe"
+    "email": "gabe99@yahoo.com",
+    "password": "gabe070199"
+}
+
+###LOGIN - NORMAL USER
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "email": "bgtmih@yahoo.com",
+    "password": "mihaisefu"
 }
 
 ###REGISTER
@@ -41,9 +50,9 @@ POST http://localhost:3000/auth/signup
 Content-Type: application/json
 
 {
-    "name": "Gabe",
-    "email": "gabe99@yahoo.com",
-    "password": "gabe070199",
+    "name": "Mihai",
+    "email": "bgtmih@yahoo.com",
+    "password": "mihaisefu",
     "age": 30
 }
 
