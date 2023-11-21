@@ -218,15 +218,20 @@ class TaskController {
 
         try {
             if (!['open', 'in-progress', 'closed'].includes(status)) {
-                return res.status(400).json({ error: 'Invalid status!' })
+                return res.status(400).json({ error: 'Invalid status!' });
             }
 
-            const filteredTasks = await Task.find({ status })
+            const filteredTasks = await Task.find({
+                status,
+                assignee: req.userId, // Filter tasks only for the authenticated user
+            });
+
             res.status(200).send(filteredTasks);
         } catch (error) {
-            res.status(500).json({ error: error.message })
+            res.status(500).json({ error: error.message });
         }
     }
+
 
     async countFilterTasksByStatus(req, res){
         
