@@ -42,6 +42,10 @@ const userSchema = new mongoose.Schema({
         enum: ['user', 'admin'], // Define possible roles
         default: 'user',
     },
+    avatar: {
+        type: Buffer,
+        default: null,
+    },
 });
 
 const User = mongoose.model('User', userSchema);
