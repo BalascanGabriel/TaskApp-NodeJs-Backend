@@ -21,9 +21,24 @@ class TaskController {
     }
 
     async getAllTasks(req, res) {
+        const page = parseInt(req.query.page) || 1;
+        const pageSize = parseInt(req.query.pageSize) || 10;
+        const skip = (page - 1) * pageSize;
+
         try {
-            const tasks = await Task.find({ assignee: req.userId }); // Only fetch tasks assigned to the authenticated user
-            res.status(200).send(tasks);
+            const tasks = await Task.find({ assignee: req.userId })
+                .skip(skip)
+                .limit(pageSize);
+
+            const totalTasks = await Task.countDocuments({ assignee: req.userId });
+
+            const totalPages = Math.ceil(totalTasks / pageSize);
+
+            res.status(200).json({
+                tasks,
+                currentPage: page,
+                totalPages,
+            });
         } catch (error) {
             res.status(500).json({ error: 'Server Error' });
         }
@@ -124,63 +139,82 @@ class TaskController {
     async asignTaskToUser(req, res) {
         const taskId = req.params.taskId;
         const userId = req.body.userId;
-    
+
         try {
             // check if the user exists
             const asigneeExists = await User.exists({ _id: userId });
-    
+
             // log the values for debugging
             console.log('UserId:', userId);
             console.log('AsigneeExists:', asigneeExists);
-    
+
             if (asigneeExists === null) {
                 return res.status(404).json({ error: "Error checking if asignee exists" });
             }
-    
+
             if (!asigneeExists) {
                 return res.status(404).json({ error: "Asignee does not exist" });
             }
-    
+
             const updatedTask = await Task.findByIdAndUpdate(
                 taskId,
                 { assignee: userId },
                 { new: true }
             );
-    
+
             if (!updatedTask) {
                 return res.status(404).json({ error: 'Document update problem' });
             }
-    
+
             return res.status(200).send(updatedTask);
         } catch (error) {
             console.error('Error in asignTaskToUser:', error);
             return res.status(500).json({ error: 'Internal Server Error' });
         }
     }
-    
+
 
     async getUserTasks(req, res) {
         const userId = req.params.userId;
-
+        // TO-DO: Implement pagination
+        const page = parseInt(req.query.page) || 1;
+        const pageSize = parseInt(req.query.pageSize) || 10;
+        const skip = (page - 1) * pageSize;
+    
         try {
-            //Check if user does indeed exist
-            const userExists = await User.exists({ _id: userId })
+            // Check if the user indeed exists
+            const userExists = await User.exists({ _id: userId });
             if (!userExists) {
-                res.status(404).json({ error: "User does not exist !" })
+                return res.status(404).json({ error: "User does not exist!" });
             }
-
-            //find all records where asignee equals userId from params
+    
+            // Find all records where assignee equals userId from params
             const userTasks = await Task.find({ assignee: userId })
-
-            if (userTasks === 0) {
-                res.status(404).json({ error: "No tasks found for required user..." })
+                .skip(skip)
+                .limit(pageSize);
+    
+            if (userTasks.length === 0) {
+                return res.status(404).json({ error: "No tasks found for the required user..." });
             }
-
-            res.status(200).send(userTasks)
+    
+            // Count total number of tasks for the user
+            const totalTasks = await Task.countDocuments({ assignee: userId });
+    
+            // Calculate total number of pages
+            const totalPages = Math.ceil(totalTasks / pageSize);
+    
+            res.status(200).json({
+                tasks: userTasks,
+                currentPage: page,
+                totalPages: totalPages,
+                pageSize: pageSize,
+                totalTasks: totalTasks,
+            });
         } catch (error) {
-            res.status(500).json({ error: error.message })
+            res.status(500).json({ error: error.message });
         }
     }
+    
 
     async setTaskStatus(req, res) {
         const taskId = req.params.taskId;
@@ -212,29 +246,54 @@ class TaskController {
         }
 
     }
-
     async filterTasksByStatus(req, res) {
         const status = req.query.status;
-
+    
+        // TO-DO: Implement pagination
+        const page = parseInt(req.query.page) || 1;
+        const pageSize = parseInt(req.query.pageSize) || 10;
+        const skip = (page - 1) * pageSize;
+    
         try {
             if (!['open', 'in-progress', 'closed'].includes(status)) {
                 return res.status(400).json({ error: 'Invalid status!' });
             }
-
+    
             const filteredTasks = await Task.find({
                 status,
                 assignee: req.userId, // Filter tasks only for the authenticated user
+            })
+            .skip(skip)
+            .limit(pageSize);
+    
+            if (filteredTasks.length === 0) {
+                return res.status(404).json({ error: "No tasks found for the required status." });
+            }
+    
+            // Count total number of tasks with the specified status for the user
+            const totalTasks = await Task.countDocuments({
+                status,
+                assignee: req.userId,
             });
-
-            res.status(200).send(filteredTasks);
+    
+            // Calculate total number of pages
+            const totalPages = Math.ceil(totalTasks / pageSize);
+    
+            res.status(200).json({
+                tasks: filteredTasks,
+                currentPage: page,
+                totalPages: totalPages,
+                pageSize: pageSize,
+                totalTasks: totalTasks,
+            });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     }
+    
 
+    async countFilterTasksByStatus(req, res) {
 
-    async countFilterTasksByStatus(req, res){
-        
     }
 
 }
