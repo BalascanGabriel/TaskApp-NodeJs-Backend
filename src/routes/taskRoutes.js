@@ -11,8 +11,11 @@ router.use(authMiddleware);
 //CREATE NEW TASK   
 router.post('/new-task', taskController.createNewTask)
 
-//GET ALL TASKS
-router.get('/get-all-tasks', taskController.getAllTasks)
+//GET ALL TASKS BULK
+router.get('/all-tasks', taskController.getAllTasks)
+
+//GET ALL TASKS ORDERED
+router.get('/get-all-tasks-ordered', taskController.getAllTasksOrdered)
 
 //GET TASK BY ID    
 router.get('/get-task/:id', taskController.getTaskById)
@@ -38,6 +41,9 @@ router.patch('/assign-task/:taskId', adminAuthMiddleware, taskController.asignTa
 
 //GET ALL TASKS FOR A USER
 router.get('/get-user-tasks/:userId', adminAuthMiddleware, taskController.getUserTasks)
+
+//GET ALL TASKS FOR A USER ORDERED
+router.get('/get-user-tasks-ordered/:userId', adminAuthMiddleware, taskController.getUserTasksOrdered)
 
 //SET TASK STATUS
 router.patch('/set-task-status/:taskId', adminAuthMiddleware, taskController.setTaskStatus)

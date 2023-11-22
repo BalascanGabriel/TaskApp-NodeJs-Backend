@@ -9,8 +9,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTViM
 }
 
 ###GET ALL TASKS
-GET http://localhost:3000/api/tasks/get-all-tasks?page=1&pageSize=5
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTViMWY2ZGU5Y2U5MDBmOTNmNzNiYzciLCJpYXQiOjE3MDA2NDI3NjAsImV4cCI6MTcwMDY0NjM2MH0.AzQ9NR851fNBla8FjoIV8Re5iT-FDQOewjf5f4l7Oak
+GET http://localhost:3000/api/tasks/all-tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTViMWY2ZGU5Y2U5MDBmOTNmNzNiYzciLCJpYXQiOjE3MDA2NDgzMjMsImV4cCI6MTcwMDY3NzEyM30.GYQ-fIX9vsBd7nWOoFnI0AYefzisjix2fRZR14nINB8
+
+
+###GET ALL TASKS ORDERED
+GET http://localhost:3000/api/tasks/get-all-tasks-ordered?page=1&pageSize=10&sortField=createdAt&sortOrder=desc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTViMWY2ZGU5Y2U5MDBmOTNmNzNiYzciLCJpYXQiOjE3MDA2NDgzMjMsImV4cCI6MTcwMDY3NzEyM30.GYQ-fIX9vsBd7nWOoFnI0AYefzisjix2fRZR14nINB8
+
 ###GET TASK BY ID
 GET http://localhost:3000/api/tasks/get-task/6554c4591f408228f10deaa6
 
@@ -43,7 +49,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTVjN
 }
 
 ###GET ALL TASKS FOR SPECIFIC USER
-GET http://localhost:3000/api/tasks/get-user-tasks/655b1f6de9ce900f93f73bc7
+GET http://localhost:3000/api/tasks/get-user-tasks/655b1f6de9ce900f93f73bc7?page=1&pageSize=10
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTViMWY2ZGU5Y2U5MDBmOTNmNzNiYzciLCJpYXQiOjE3MDA2NDY3OTMsImV4cCI6MTcwMDY3NTU5M30.bgFfwIlYi25GWS6K48aVXdtbstyxwOREKDRW9_1_zmM
+
+###GET ALL TASKS FOR SPECIFIC USER ORDERED
+GET http://localhost:3000/api/tasks/get-user-tasks-ordered/655b1f6de9ce900f93f73bc7?page=1&pageSize=10&sortField=title&sortOrder=asc
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTViMWY2ZGU5Y2U5MDBmOTNmNzNiYzciLCJpYXQiOjE3MDA2NDY3OTMsImV4cCI6MTcwMDY3NTU5M30.bgFfwIlYi25GWS6K48aVXdtbstyxwOREKDRW9_1_zmM
 
