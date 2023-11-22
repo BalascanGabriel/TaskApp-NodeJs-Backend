@@ -70,3 +70,9 @@ exports.signup = async (req, res) => {
         });
     }
 };
+
+exports.logout = (req, res) => {
+    // Clear the token from the client-side (remove the cookie)
+    res.clearCookie('token');
+    res.json({ message: 'Logout successful' });
+  };

@@ -21,7 +21,8 @@ const taskSchema = new mongoose.Schema({
     default: defaultUserId, // Set a default value, you can change this to any default you prefer
 
   },
-});
+}, { timestamps: true } //createdAt, updatedAt timestamps
+);
 
 const Task = mongoose.model('Task', taskSchema);
 

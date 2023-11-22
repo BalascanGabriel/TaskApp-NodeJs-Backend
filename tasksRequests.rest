@@ -1,16 +1,16 @@
 ###CREATE NEW TASK
 POST http://localhost:3000/api/tasks/new-task
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTViMWY2ZGU5Y2U5MDBmOTNmNzNiYzciLCJpYXQiOjE3MDA1NTU5NjAsImV4cCI6MTcwMDU1OTU2MH0.dtfp7Nd8ipEdglSyVTMSqlTOlM1SIlD_sq16HnzcoLk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTViMWY2ZGU5Y2U5MDBmOTNmNzNiYzciLCJpYXQiOjE3MDA2NDI3NjAsImV4cCI6MTcwMDY0NjM2MH0.AzQ9NR851fNBla8FjoIV8Re5iT-FDQOewjf5f4l7Oak
 
 {
-    "title" : "Go eat",
-    "description" : "11:00 AM"
+    "title" : "Take a break",
+    "description" : "11:35 AM"
 }
 
 ###GET ALL TASKS
 GET http://localhost:3000/api/tasks/get-all-tasks
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTVjNmRmMDI4YjUwY2I2YTBlZjRjOTUiLCJpYXQiOjE3MDA1NjYwOTIsImV4cCI6MTcwMDU2OTY5Mn0.3xmWM3l9Fi8GLeX7XXEBvTEdECD7_Rk3_6wiPK1SA2s
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTViMWY2ZGU5Y2U5MDBmOTNmNzNiYzciLCJpYXQiOjE3MDA2NDI3NjAsImV4cCI6MTcwMDY0NjM2MH0.AzQ9NR851fNBla8FjoIV8Re5iT-FDQOewjf5f4l7Oak
 ###GET TASK BY ID
 GET http://localhost:3000/api/tasks/get-task/6554c4591f408228f10deaa6
 
