@@ -280,8 +280,6 @@ class TaskController {
             res.status(500).json({ error: error.message });
         }
     }
-    
-
 
     async setTaskStatus(req, res) {
         const taskId = req.params.taskId;
@@ -313,6 +311,7 @@ class TaskController {
         }
 
     }
+    
     async filterTasksByStatus(req, res) {
         const status = req.query.status;
 

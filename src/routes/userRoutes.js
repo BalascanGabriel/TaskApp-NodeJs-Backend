@@ -29,6 +29,9 @@ router.patch('/set-user-role/:id', userController.setUserRole);
 //UPLOAD AVATAR
 router.post('/upload-avatar-for-user/:id/avatar', multer().single('avatar'), userController.uploadAvatar);
 
+//GET USER AVATAR
+router.get('/get-user-avatar/:id/avatar', userController.getAvatar);
+
 
 
 module.exports = router

@@ -148,7 +148,7 @@ class UserController {
             res.status(500).json({ error: error.message });
         }
     }
-    
+
     async uploadAvatar(req, res) {
         const userId = req.params.id;
 
@@ -164,6 +164,21 @@ class UserController {
             await user.save();
 
             res.status(200).send(user);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    async getAvatar(req, res) {
+        try {
+            const user = await User.findById(req.params.id);
+
+            if (!user || !user.avatar) {
+                return res.status(404).send();
+            }
+
+            res.set('Content-Type', 'image/jpg'); // Set the correct content type for your image
+            res.send(user.avatar);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
